@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  scala:
+    build: ./scala
+    image: "scala/$SCALA_HOST"
+    container_name: "$SCALA_HOST"
+    volumes:
+    - ..:/src
+    stdin_open: true
+    tty: true
+    command: tmux new '/bin/bash -c ". /root/.bashrc; /src/sbt/sbt; exec /bin/bash"'
