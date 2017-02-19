@@ -2,7 +2,7 @@ import java.net.InetSocketAddress
 
 import org.http4s._
 import org.http4s.dsl._
-import org.http4s.server.ServerApp
+import org.http4s.server.{Router, ServerApp}
 import org.http4s.server.blaze.BlazeBuilder
 import org.http4s.server.middleware.{CORS, CORSConfig}
 
@@ -21,14 +21,18 @@ object Main extends ServerApp {
       )
     )
 
+  val service = Router(
+    "/test1" -> cors(HttpService {
+      case GET -> Root => Ok()
+    }),
+    "/test2" -> cors(HttpService {
+      case GET -> Root => Ok()
+    })
+  )
+
   override def server(args: List[String]) =
     BlazeBuilder
-      .mountService(cors(HttpService {
-        case GET -> Root / "test1" => Ok()
-      }))
-      .mountService(cors(HttpService {
-        case GET -> Root / "test2" => Ok()
-      }))
+      .mountService(service)
       .bindSocketAddress(new InetSocketAddress(8000))
       .start
 }
