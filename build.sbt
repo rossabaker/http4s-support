@@ -1,5 +1,7 @@
 name := "scala-template"
 
+val http4sVersion = "0.15.4"
+
 lazy val commonSettings = Seq(
   version := "1.0",
   scalaVersion := "2.11.8",
@@ -41,6 +43,9 @@ lazy val root = project.in(file("."))
   .settings(commonSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
+      "org.http4s" %% "http4s-dsl" % http4sVersion,
+      "org.http4s" %% "http4s-blaze-server" % http4sVersion,
+      "ch.qos.logback" % "logback-classic" % "1.1.8"
     )
   )
   .dependsOn(macrosModule)
